@@ -1,0 +1,24 @@
+---
+- name: Install dotfiles to the home directory
+  hosts: localhost
+  become: false
+  vars:
+    username: Fedor Ivanov
+    email: ivnfedor@gmail.com
+  vars_prompt:
+    - name: gpg_key_id
+      prompt: "Enter your GPG key ID"
+      private: false
+  tasks:
+    - name: Template .gitconfig
+      ansible.builtin.template:
+        src: .gitconfig
+        dest: "{{ ansible_env.HOME }}/.gitconfig"
+      register: gitconfig
+    # - name: Rsync dotfiles to the home directory
+    #   ansible.posix.synchronize:
+    #     src: "{{ item }}"
+    #     dest: "{{ ansible_env.HOME }}/"
+    #     recursive: yes
+    #   loop:
+    #     - .gitconfig
