@@ -1,0 +1,47 @@
+env:
+  TERM: xterm-256color
+
+window:
+  padding:
+    x: 12
+    y: 12
+  decorations: buttonless
+  dynamic_padding: true
+
+font:
+  normal:
+    family: "MesloLGS NF"
+  size: 13
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always
+  blink_interval: 500
+
+  blink_timeout: 0
+  thickness: 0.25
+
+bell:
+  animation: Ease
+  duration: 200
+  color: "#1d1f21"
+
+# mouse:
+# hide_when_typing: true
+
+# Themes
+#
+# Replace `{theme}` in `~/.config/alacritty/themes/themes/{theme}` with with
+# your desired colorscheme value from
+#
+# Visit https://github.com/alacritty/alacritty-theme for docs
+import:
+  - ~/.config/alacritty/themes/themes/github_dark.yaml
+
+# Fix for `option_as_alt: Both` since it does not work.. idk why..
+#
+# Follow this issue: https://github.com/alacritty/alacritty/issues/93
+key_bindings:
+  - { key: Right, mods: Alt, chars: "\ef" }
+  - { key: Left, mods: Alt, chars: "\eb" }

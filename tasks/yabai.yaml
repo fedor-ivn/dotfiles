@@ -1,0 +1,23 @@
+---
+- name: Configure yabai and skhd
+  hosts: localhost
+  become: false
+  vars:
+    config_dir: ".config"
+    config_dest_dir: "{{ ansible_env.HOME }}/{{ config_dir }}"
+  tasks:
+    - name: Create config directory
+      ansible.builtin.file:
+        path: "{{ config_dest_dir }}/{{ item }}"
+        state: directory
+      loop:
+        - "yabai"
+        - "skhd"
+
+    - name: Install Alacritty Config
+      ansible.builtin.copy:
+        src: "../{{ config_dir }}/{{ item }}"
+        dest: "{{ config_dest_dir }}/{{ item }}"
+      loop:
+        - "yabai/yabairc"
+        - "skhd/skhdrc"

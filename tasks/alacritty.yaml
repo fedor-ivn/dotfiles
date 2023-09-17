@@ -1,0 +1,27 @@
+---
+- name: Configure Alacritty terminal
+  become: false
+  vars:
+    config_dir: ".config/alacritty"
+    config_dest_dir: "{{ ansible_env.HOME }}/{{ config_dir }}"
+  tasks:
+    - name: Create config directory
+      ansible.builtin.file:
+        path: "{{ config_dest_dir }}"
+        state: directory
+        
+    - name: Create a directory for themes in config
+      ansible.builtin.file:
+        path: "{{ config_dest_dir }}/themes"
+        state: directory
+
+    - name: Install color themes
+      ansible.builtin.git:
+        repo: "https://github.com/alacritty/alacritty-theme"
+        dest: "{{ config_dest_dir }}/themes"
+        depth: 1
+      
+    - name: Install Alacritty Config
+      ansible.builtin.copy:
+        src: "../{{ config_dir }}/alacritty.yml"
+        dest: "{{ config_dest_dir }}/alacritty.yml"

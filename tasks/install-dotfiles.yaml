@@ -3,8 +3,8 @@
   hosts: localhost
   become: false
   vars:
-    username: Fedor Ivanov
-    email: ivnfedor@gmail.com
+    git_name: Fedor Ivanov
+    git_email: ivnfedor@gmail.com
   vars_prompt:
     - name: gpg_key_id
       prompt: "Enter your GPG key ID"
@@ -14,7 +14,10 @@
       ansible.builtin.template:
         src: .gitconfig
         dest: "{{ ansible_env.HOME }}/.gitconfig"
-      register: gitconfig
+
+    # - name: Install oh-my-zsh
+    #   ansible.builtin.copy:
+
     # - name: Rsync dotfiles to the home directory
     #   ansible.posix.synchronize:
     #     src: "{{ item }}"

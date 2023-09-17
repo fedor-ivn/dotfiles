@@ -1,0 +1,43 @@
+---
+- name: Install MacOS Packages
+  hosts: localhost
+  become: true
+  vars:
+    upgrade_homebrew_packages: true
+
+  pre_tasks:
+    - name: Check if Homebrew is installed
+      stat:
+        path: /usr/local/bin/brew
+      register: homebrew_check
+
+    - name: Fail if Homebrew is not installed and install_homebrew_if_missing is false
+      fail:
+        msg: |
+          Homebrew is missing... Install from http://brew.sh/ or use the command below
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      when:
+        - not homebrew_check.stat.exists
+
+  tasks:
+    - name: Updating Homebrew
+      homebrew:
+        update_homebrew: true
+
+    - name: Upgrading Homebrew packages
+      homebrew:
+        upgrade_all: "{{ upgrade_homebrew_packages }}"
+      register: result
+      until: result is successful
+    
+    - name: Copy Brewfile to HOME
+      ansible.builtin.copy:
+        dest: "../Brewfile"
+        src: "{{ ansible_env.HOME }}/Brewfile"
+
+    - name: Installing Brew packages from a Brewfile
+      become: true
+      ansible.builtin.shell:
+        cmd: brew bundle {{ brew_additional_flags }}
+      register: brew_install_check 
+      changed_when: '"Installing" in brew_install_check.stdout or "Upgrading" in brew_install_check.stdout'
