@@ -5,14 +5,14 @@
   vars:
     git_name: Fedor Ivanov
     git_email: ivnfedor@gmail.com
-  vars_prompt:
-    - name: gpg_key_id
-      prompt: "Enter your GPG key ID"
-      private: false
+  # vars_prompt:
+  #   - name: gpg_key_id
+  #     prompt: "Enter your GPG key ID"
+  #     private: false
   tasks:
     - name: Template .gitconfig
       ansible.builtin.template:
-        src: .gitconfig
+        src: ../.gitconfig
         dest: "{{ ansible_env.HOME }}/.gitconfig"
 
     # - name: Install oh-my-zsh

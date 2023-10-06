@@ -1,0 +1,15 @@
+---
+- name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+  hosts: localhost
+  vars:
+    email: ivnfedor@gmail.com
+  tasks:
+  - name: Create .ssh directory
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/.ssh"
+      state: directory
+  - name: kek
+    community.crypto.openssh_keypair:
+      path: "{{ ansible_env.HOME }}/.ssh/id_ed25519"
+      type: ed25519
+      comment: "{{ email }}"

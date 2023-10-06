@@ -169,6 +169,5 @@
 #     defaultBranch = main
 
 [user]
-    # signingkey = {{ gpg_key_id }}
     name = "{{ git_name }}"
     email = "{{ git_email }}"

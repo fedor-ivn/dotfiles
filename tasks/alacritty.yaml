@@ -1,6 +1,7 @@
 ---
 - name: Configure Alacritty terminal
   become: false
+  hosts: localhost
   vars:
     config_dir: ".config/alacritty"
     config_dest_dir: "{{ ansible_env.HOME }}/{{ config_dir }}"
